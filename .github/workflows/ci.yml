@@ -1,0 +1,23 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build game
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Godot
+        uses: jurajm/godot-ci@v1
+        with:
+          godot-version: "3.3.3"
+
+      - name: Build game
+        run: godot --path /path/to/game --export "Windows Desktop" build.exe
+
+      - name: Check build
+        run: test -f build.exe
