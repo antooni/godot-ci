@@ -11,13 +11,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Godot
-        uses: godotengine/setup-godot@v1
-        with:
-          godot-version: "3.3.3"
-
       - name: Build game
-        run: godot --path /path/to/game --export "Windows Desktop" build.exe
+        run: |
+          docker run --rm \
+            -v $(pwd):/project \
+            barichello/godot-ci:3.3.4 \
+            godot --path /project/path/to/game --export "Windows Desktop" build.exe
 
       - name: Check build
         run: test -f build.exe
